@@ -15,7 +15,6 @@ import {
   ListAccounts,
   ListContactInfos,
   ListWorkspaces,
-  RecentlyTrash,
   Settings,
   WorkspaceDetail
 } from '@/pages'
@@ -138,10 +137,6 @@ export const router = createBrowserRouter([
       {
         path: PATH.VAULT_SETTINGS,
         element: <Settings />
-      },
-      {
-        path: PATH.VAULT_TRASH,
-        element: <RecentlyTrash />
       }
     ]
   },
