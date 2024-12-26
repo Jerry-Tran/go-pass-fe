@@ -16,6 +16,7 @@ export function useAuth() {
   const {
     data: currentUser = null,
     isPending,
+    isLoading,
     isFetching,
     isError
   } = useQuery<ICurrentUser>({
@@ -36,5 +37,5 @@ export function useAuth() {
     }
   })
 
-  return { currentUser, isPending, isFetching, mutateLogout, isError }
+  return { currentUser, isPending, isLoading, isFetching, mutateLogout, isError }
 }

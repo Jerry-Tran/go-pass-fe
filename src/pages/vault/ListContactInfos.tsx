@@ -28,7 +28,7 @@ export const ListContactInfos = () => {
 
   const { value: isShowCreateContactInfoForm, toggle: toggleShowCreateContactInfoForm } = useBoolean(false)
 
-  const { data: contactInfos, isLoading } = useQuery<IContactInfoDataResponse[], AxiosError<IErrorResponse>>(
+  const { data: contactInfos = [], isLoading } = useQuery<IContactInfoDataResponse[], AxiosError<IErrorResponse>>(
     contactInfoKeys.list()
   )
 
@@ -86,14 +86,6 @@ export const ListContactInfos = () => {
     if (contactInfos) setListSuggestContactInfos(contactInfos)
   }, [contactInfos])
 
-  if (isLoading || !currentUser || !contactInfos) {
-    return (
-      <div className='flex justify-center items-center mt-5'>
-        <Spin size='large' />
-      </div>
-    )
-  }
-
   return (
     <div className='xs:px-0 md:p-6 overflow-x-hidden'>
       <CreateContactInfo
@@ -102,7 +94,12 @@ export const ListContactInfos = () => {
         handleCancelUpdateContactInfo={handleCancelUpdateContactInfo}
         toggleShowCreateContactInfoForm={toggleShowCreateContactInfoForm}
       />
-      {contactInfos?.length > 0 ? (
+      {isLoading && (
+        <div className='flex justify-center items-center mt-5 ab absolute top-1/2 left-1/2 -translate-y-1/2 -translate-x-1/2'>
+          <Spin size='large' />
+        </div>
+      )}
+      {!isLoading && contactInfos?.length > 0 && (
         <>
           <Modal
             open={open}
@@ -128,7 +125,7 @@ export const ListContactInfos = () => {
               name='searchValue'
               size='large'
               placeholder='Search contact info'
-              className='!h-12 max-w-screen-md xs:mr-0  text-lg font-medium border border-gray-200 rounded-md hover:border-primary-800 focus-within:shadow-custom'
+              className='!h-12 max-w-screen-md xs:mr-0 !text-base font-medium border border-gray-200 rounded-md hover:border-primary-800 focus-within:shadow-custom'
               onChange={(e: { target: { value: string } }) => handleSearchContactInfo(e.target.value)}
             />
             <Space className='flex xs:w-full md:w-auto xs:justify-between'>
@@ -142,7 +139,7 @@ export const ListContactInfos = () => {
             </Space>
           </div>
           {listSuggestContactInfos.length > 0 && currentUser ? (
-            <ul className='grid md:grid-cols-2 xl:grid-cols-4 gap-8'>
+            <ul className='grid md:grid-cols-2 xl:grid-cols-3 3xl:grid-cols-4 gap-8'>
               {listSuggestContactInfos.map((contactInfo) => (
                 <ContactInfoItem
                   key={contactInfo.id}
@@ -159,13 +156,13 @@ export const ListContactInfos = () => {
             </div>
           )}
         </>
-      ) : (
-        <div className='flex flex-col justify-center items-center'>
+      )}
+      {!isLoading && contactInfos?.length === 0 && (
+        <div className='flex flex-col justify-center items-center gap-2'>
           <CustomLottie animationData={emptyData} width={200} height={200} />
           <Typography.Text className='text-center text-lg text-slate-800'>
             There's no contact info for you to see yet!
-          </Typography.Text>
-          <Typography.Text className='text-center text-lg text-slate-800'>
+            <br />
             If you want to create new contact info, just click
           </Typography.Text>
           <CustomBtn

@@ -18,7 +18,8 @@ export default {
         right: '0 1px 2px rgba(60, 64, 67, 0.3), 0 2px 6px 2px rgba(60, 64, 67, 0.15)'
       },
       screens: {
-        xs: '275px'
+        xs: '275px',
+        '3xl':'1680px'
       },
       transitionDuration: {
         400: '400ms'

@@ -132,7 +132,7 @@ export const ListAccounts = () => {
             name='searchValue'
             size='large'
             placeholder='Search your accounts'
-            className='!h-12 max-w-screen-md xs:mr-0 text-lg font-medium border border-gray-200 rounded-md hover:border-primary-800 focus-within:shadow-custom'
+            className='!h-12 max-w-screen-md xs:mr-0 !text-base font-medium border border-gray-200 rounded-md hover:border-primary-800 focus-within:shadow-custom'
             onChange={(e: { target: { value: string } }) => handleSearchAccount(e.target.value)}
             value={searchValue}
           />
@@ -148,7 +148,7 @@ export const ListAccounts = () => {
         </div>
       )}
       {isLoading && (
-        <div className='flex justify-center items-center mt-5'>
+        <div className='flex justify-center items-center mt-5 ab absolute top-1/2 left-1/2 -translate-y-1/2 -translate-x-1/2'>
           <Spin size='large' />
         </div>
       )}
@@ -180,7 +180,7 @@ export const ListAccounts = () => {
             <span>This item will be permanently removed from your vault.</span>
           </Modal>
 
-          <ul className='grid md:grid-cols-2 xl:grid-cols-4 gap-8'>
+          <ul className='grid md:grid-cols-2 xl:grid-cols-3 3xl:grid-cols-4 gap-8'>
             {data.accounts.map((account: IAccountDataResponse) => (
               <AccountItem
                 key={account.id}

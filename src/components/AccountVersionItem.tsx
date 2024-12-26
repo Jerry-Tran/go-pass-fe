@@ -17,9 +17,14 @@ import { ModalVerifyHighPassword } from './ModalVerifyHighPassword'
 type AccountVersionItemProps = {
   accountVersion: IAccountVersionDataResponse
   version?: number
+  showAction?: boolean
 }
 
-export const AccountVersionItem: React.FC<AccountVersionItemProps> = ({ accountVersion, version }) => {
+export const AccountVersionItem: React.FC<AccountVersionItemProps> = ({
+  accountVersion,
+  version,
+  showAction = true
+}) => {
   const queryClient = useQueryClient()
 
   const { currentUser } = useAuth()
@@ -142,11 +147,14 @@ export const AccountVersionItem: React.FC<AccountVersionItemProps> = ({ accountV
         </div>
       </div>
 
-      <Dropdown menu={{ items: actionAccountVersion }} placement='bottomRight' arrow trigger={['click']}>
-        <div className='p-3 rounded-full cursor-pointer hover:bg-gray-100'>
-          <span className='text-xl'>{icons.moreFi}</span>
-        </div>
-      </Dropdown>
+      {showAction && (
+        <Dropdown menu={{ items: actionAccountVersion }} placement='bottomRight' arrow trigger={['click']}>
+          <div className='p-3 rounded-full cursor-pointer hover:bg-gray-100'>
+            <span className='text-xl'>{icons.moreFi}</span>
+          </div>
+        </Dropdown>
+      )}
+
       <ModalVerifyHighPassword
         isOpen={isOpenVerifyHighPassword}
         handleCancel={handleCancelVerifyHighPassowrd}

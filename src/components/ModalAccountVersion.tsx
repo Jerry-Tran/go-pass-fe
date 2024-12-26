@@ -36,7 +36,9 @@ export const ModalAccountVersion: React.FC<ModalAccountVersionProps> = ({ open, 
           </div>
         )}
 
-        <AccountVersionItem accountVersion={account as IAccountVersionDataResponse} />
+        {!isLoading && (
+          <AccountVersionItem accountVersion={account as IAccountVersionDataResponse} showAction={false} />
+        )}
 
         {accountVersions.length > 0 && (
           <ul>

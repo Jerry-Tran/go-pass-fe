@@ -106,18 +106,18 @@ export const WorkspaceItem: React.FC<WorkspaceItemProps> = ({
 
   return (
     <li className='flex justify-between items-center bg-white rounded-md p-2 border border-gray-200 transition hover:cursor-pointer hover:bg-blue-50 group'>
-      <div className='flex flex-1 items-center p-2' onClick={handleNavigate}>
+      <div className='flex flex-1 items-center py-2 px-1' onClick={handleNavigate}>
         <span className='text-3xl mr-3 text-[#ffd100e8] p-1'>
           {workspace?.members?.length > 0 ? icons.folderShared : icons.folder}
         </span>
-        <span className='text-slate-700 text-lg font-medium group-hover:text-primary-500 group-hover:underline'>
+        <span className='text-slate-700 text-base font-medium group-hover:text-primary-500 group-hover:underline'>
           {workspace.name} ({workspace?.accounts?.length})
         </span>
       </div>
       {showAction && (
         <Dropdown menu={{ items: createActionWorkspace() }} placement='bottomRight' arrow trigger={['click']}>
           <Button className='outline-none border-none cursor-pointer mr-2 shadow-none bg-transparent'>
-            <span className='text-primary-800 text-lg'>{icons.moreAlt}</span>
+            <span className='text-primary-800 text-base'>{icons.moreAlt}</span>
           </Button>
         </Dropdown>
       )}

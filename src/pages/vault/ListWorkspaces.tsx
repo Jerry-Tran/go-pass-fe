@@ -132,7 +132,7 @@ export function ListWorkspaces() {
             name='searchValue'
             size='large'
             placeholder='Search your workspaces'
-            className='!h-12 max-w-screen-md xs:mr-0 text-lg font-medium border border-gray-200 rounded-md hover:border-primary-800 focus-within:shadow-custom'
+            className='!h-12 max-w-screen-md xs:mr-0 !text-base font-medium border border-gray-200 rounded-md hover:border-primary-800 focus-within:shadow-custom'
             onChange={(e: { target: { value: string } }) => handleSearchWorkspace(e.target.value)}
             value={searchValue}
           />
@@ -148,7 +148,7 @@ export function ListWorkspaces() {
         </div>
       )}
       {isLoading && (
-        <div className='flex justify-center items-center mt-5'>
+        <div className='flex justify-center items-center mt-5 ab absolute top-1/2 left-1/2 -translate-y-1/2 -translate-x-1/2'>
           <Spin size='large' />
         </div>
       )}

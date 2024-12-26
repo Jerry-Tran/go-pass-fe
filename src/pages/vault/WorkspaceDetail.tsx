@@ -20,7 +20,11 @@ export const WorkspaceDetail = () => {
   })
 
   if (isLoading) {
-    return <Spin size='large' />
+    return (
+      <div className='flex justify-center items-center mt-5 ab absolute top-1/2 left-1/2 -translate-y-1/2 -translate-x-1/2'>
+        <Spin size='large' />
+      </div>
+    )
   }
 
   if (!workspaceData) {
@@ -46,7 +50,7 @@ export const WorkspaceDetail = () => {
         </Row>
       </Card>
 
-      <TableAccounts accounts={workspaceData.accounts} currentWorkspace={workspaceData}/>
+      <TableAccounts accounts={workspaceData.accounts} currentWorkspace={workspaceData} />
       <TableMembers members={workspaceData.members} currentWorkspace={workspaceData} />
     </section>
   )

@@ -1,14 +1,13 @@
 import * as yup from 'yup'
 import { AxiosError } from 'axios'
-import React, { useRef } from 'react'
+import React, { useRef, useState } from 'react'
+import { useMutation } from '@tanstack/react-query'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { useForm, Controller } from 'react-hook-form'
 import { Input, Row, Col, Form, message } from 'antd'
-import { useMutation, useQueryClient } from '@tanstack/react-query'
 
 import { authApi } from '@/apis'
 import { useAuth } from '@/hooks'
-import { userKeys } from '@/keys'
 import { CustomBtn } from '@/components'
 import { IErrorResponse, ILoginResultWithTokens } from '@/interfaces'
 
@@ -30,9 +29,9 @@ export const VerifyTokenTwoFa: React.FC<VerifyTokenTwoFaProps> = ({
   userTwoFaId,
   onVerifySuccess
 }) => {
-  const queryClient = useQueryClient()
-
   const { currentUser } = useAuth()
+
+  const [errorMessage, setErrorMessage] = useState<string>('')
 
   const inputs = useRef<Array<HTMLInputElement | null>>([])
 
@@ -86,8 +85,7 @@ export const VerifyTokenTwoFa: React.FC<VerifyTokenTwoFaProps> = ({
 
   const {
     mutate: mutateVerifyTokenTwoFa,
-    isPending,
-    error,
+    isPending: isPendingVerify,
     isError
   } = useMutation<ILoginResultWithTokens, AxiosError<IErrorResponse>, string>({
     mutationFn: async (token: string) => {
@@ -100,11 +98,10 @@ export const VerifyTokenTwoFa: React.FC<VerifyTokenTwoFaProps> = ({
     onSuccess: () => {
       onVerifySuccess()
       message.success('Verify totp successfully!')
-      queryClient.invalidateQueries({ queryKey: userKeys.profiles() })
     },
     onError: (error: AxiosError) => {
       const errorMessage = (error.response?.data as IErrorResponse)?.message
-      message.error('Verify totp failed: ' + errorMessage)
+      setErrorMessage(errorMessage)
     }
   })
   return (
@@ -113,12 +110,6 @@ export const VerifyTokenTwoFa: React.FC<VerifyTokenTwoFaProps> = ({
         {showHeader && (
           <header className='mb-2'>
             <h1 className='text-2xl font-bold mb-1'>Verify Your Account</h1>
-            {isError && (
-              <>
-                <span className='inline-block text-red-500 mb-2 text-lg'>{error.response?.data.message}</span>
-                <br />
-              </>
-            )}
             <span className='text-base text-slate-600'>Please enter your code in google authenticator app</span>
           </header>
         )}
@@ -153,8 +144,15 @@ export const VerifyTokenTwoFa: React.FC<VerifyTokenTwoFaProps> = ({
                 ))}
             </Col>
           </Row>
-
-          <CustomBtn title='Verify' type='primary' htmlType='submit' disabled={isPending} className='mt-4'/>
+          {isError && <span className='inline-block w-full py-2 text-red-500 text-lg text-left'>{errorMessage}!</span>}
+          <CustomBtn
+            title='Verify'
+            type='primary'
+            htmlType='submit'
+            disabled={isPendingVerify}
+            loading={isPendingVerify}
+            className='mt-2'
+          />
         </Form>
       </div>
     </div>

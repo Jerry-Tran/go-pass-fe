@@ -1,11 +1,12 @@
 import { AxiosError } from 'axios'
-import React, { useState } from 'react'
-import { useMutation } from '@tanstack/react-query'
+import React, { useCallback, useState } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
+import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { Radio, Typography, Steps, Row, Col, Result, message, Grid } from 'antd'
 
 import { userApi } from '@/apis'
 import { QRCode } from '@/pages'
+import { userKeys } from '@/keys'
 import { CustomBtn } from '@/components'
 import { IErrorResponse } from '@/interfaces'
 import { PATH, TWO_FACTOR_AUTHEN_OPTIONS } from '@/utils/constants'
@@ -20,6 +21,8 @@ export const TwoFARecommendation: React.FC = () => {
 
   const navigate = useNavigate()
 
+  const queryClient = useQueryClient()
+
   const screens = Grid.useBreakpoint()
 
   const isInVaultPage = location.pathname.includes(PATH.VAULT)
@@ -28,13 +31,18 @@ export const TwoFARecommendation: React.FC = () => {
 
   const [twoFaMethod, setTwoFaMethod] = useState<string>('authApp')
 
-  const handleNext = () => {
+  const handleNext = useCallback(() => {
+    console.log({ currentStep, stepsContent: stepsContent.length - 1 })
     if (currentStep === stepsContent.length - 1) {
-      navigate('/')
+      if (isInVaultPage) {
+        queryClient.invalidateQueries({ queryKey: userKeys.profiles() })
+      } else {
+        navigate(PATH.VAULT)
+      }
     } else {
       setCurrentStep((prevStep) => prevStep + 1)
     }
-  }
+  }, [currentStep])
 
   const handleBack = () => {
     setCurrentStep((prevStep) => prevStep - 1)
@@ -64,7 +72,17 @@ export const TwoFARecommendation: React.FC = () => {
             Choose an authentication method
           </Title>
           <Text className='!text-slate-700 text-lg'>
-            To sign in, you'll need your username, password, and a code from an app or SMS
+            To sign in, you'll need your username, password, and a code from an app or SMS.
+            <br />
+            You can download{' '}
+            <a
+              href='https://play.google.com/store/apps/details?id=com.google.android.apps.authenticator2&hl=en'
+              target='_blank'
+              className='!hover:underline'
+            >
+              Google Authenticator{' '}
+            </a>
+            here.
           </Text>
           <Radio.Group
             onChange={(e) => setTwoFaMethod(e.target.value)}
@@ -132,7 +150,7 @@ export const TwoFARecommendation: React.FC = () => {
   return (
     <section className={`flex bg-white  ${isInVaultPage ? '' : 'justify-center xs:p-6'}`}>
       <div
-        className={`flex gap-8 flex-col  ${isInVaultPage ? 'xl:flex-row justify-between flex-1' : 'justify-center'}`}
+        className={`flex gap-8 flex-col  ${isInVaultPage ? 'xl:flex-row justify-between flex-1' : 'justify-center xl:min-w-[60%]'}`}
       >
         {!isInVaultPage && (
           <article

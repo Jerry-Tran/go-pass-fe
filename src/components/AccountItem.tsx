@@ -45,12 +45,12 @@ export const AccountItem: React.FC<AccountItemProps> = ({
   const createMenuItems: MenuProps['items'] = [
     {
       key: 'username',
-      label: <span className='text-lg font-normal'>Copy username</span>,
+      label: <span className='text-sm'>Copy Username</span>,
       onClick: () => onActionAccountClick('username')
     },
     {
       key: 'password',
-      label: <span className='text-lg font-normal'>Copy password</span>,
+      label: <span className='text-sm'>Copy Password</span>,
       onClick: () => onActionAccountClick('password')
     }
   ]
@@ -60,7 +60,7 @@ export const AccountItem: React.FC<AccountItemProps> = ({
       showShare && {
         key: 'share',
         label: (
-          <span className='flex items-center text-slate-700 text-lg font-normal'>
+          <span className='flex items-center text-slate-700 text-base font-normal'>
             <span className='mr-2'>{icons.share}</span>
             Share
           </span>
@@ -70,7 +70,7 @@ export const AccountItem: React.FC<AccountItemProps> = ({
       showEdit && {
         key: 'edit',
         label: (
-          <span className='flex items-center text-slate-700 text-lg font-normal'>
+          <span className='flex items-center text-slate-700 text-base font-normal'>
             <span className='mr-2'>{icons.edit}</span>
             Edit
           </span>
@@ -80,7 +80,7 @@ export const AccountItem: React.FC<AccountItemProps> = ({
       showDelete && {
         key: 'versions',
         label: (
-          <span className='flex items-center text-slate-700 text-lg font-normal w-[150px]'>
+          <span className='flex items-center text-slate-700 text-base font-normal w-[150px]'>
             <span className='mr-2'>{icons.version}</span>
             Versions
           </span>
@@ -90,7 +90,7 @@ export const AccountItem: React.FC<AccountItemProps> = ({
       showDelete && {
         key: 'delete',
         label: (
-          <span className='flex items-center text-red-500 text-lg font-normal'>
+          <span className='flex items-center text-red-500 text-base font-normal'>
             <span className='mr-2'>{icons.trash}</span>
             Delete
           </span>
@@ -150,33 +150,33 @@ export const AccountItem: React.FC<AccountItemProps> = ({
     toggleOpenAccountVersion()
   }
   return (
-    <li className='flex justify-between items-center bg-white rounded-md p-2 border border-gray-200 transition group hover:bg-blue-50 hover:cursor-pointer'>
+    <li className='flex flex-wrap justify-between items-center bg-white rounded-md pr-2 py-2 border border-gray-200 transition group hover:bg-blue-50 hover:cursor-pointer'>
       <div className='flex flex-1 items-center p-2 max-w-14' onClick={handleOpenSite(account.domain)}>
         <span className='mr-3 cursor-pointer p-1 rounded-sm text-primary-800 text-3xl align-middle'>
           {account.members.length > 0 ? icons.lockShared : icons.lockFill}
         </span>
         <div className='relative text-left'>
-          <span className='inline-block transition-all text-lg duration-300 text-slate-800 text-left opacity-100 text-ellipsis text-nowrap xs:w-[120px] md:w-[135px] lg:w-[180px] overflow-hidden group-hover:opacity-0 group-hover:transform group-hover:translate-y-2'>
+          <span className='inline-block transition-all text-sm duration-300 text-slate-800 text-left opacity-100 text-ellipsis text-nowrap xs:w-[120px] md:w-[135px] lg:w-[180px] overflow-hidden group-hover:opacity-0 group-hover:transform group-hover:translate-y-2'>
             {account.domain}
           </span>
-          <span className='absolute top-0 left-0 transition-all duration-300 text-base font-bold opacity-0 transform -translate-y-2 group-hover:opacity-100 group-hover:translate-y-0 group-hover:text-primary-500'>
+          <span className='absolute top-0 left-0 transition-all duration-300 text-sm font-bold opacity-0 transform -translate-y-2 group-hover:opacity-100 group-hover:translate-y-0 group-hover:text-primary-500'>
             Launch
           </span>
-          <div className='text-left text-lg font-medium text-slate-800 text-ellipsis text-nowrap xs:w-[120px] md:w-[135px] lg:w-[180px] overflow-hidden'>
+          <div className='text-left text-base font-medium text-slate-800 text-ellipsis text-nowrap xs:w-[120px] md:w-[135px] lg:w-[180px] overflow-hidden'>
             {account.username}
           </div>
         </div>
       </div>
-      <div className='flex p-2 transition'>
+      <div className='flex pl-2 transition'>
         <Dropdown menu={{ items: createMenuItems }} placement='bottomRight' arrow trigger={['click']}>
-          <Button className='outline-none border-none cursor-pointer mr-2 shadow-none bg-transparent'>
-            <span className='text-primary-800 text-lg'>{icons.copy}</span>
+          <Button className='outline-none border-none cursor-pointer shadow-none bg-transparent'>
+            <span className='text-primary-800 text-base'>{icons.copy}</span>
           </Button>
         </Dropdown>
         {showAction && (
           <Dropdown menu={{ items: createActionAccount() }} placement='bottomRight' arrow trigger={['click']}>
             <Button className='outline-none border-none cursor-pointer shadow-none bg-transparent'>
-              <span className='text-primary-800 text-lg'>{icons.moreAlt}</span>
+              <span className='text-primary-800 text-base'>{icons.moreAlt}</span>
             </Button>
           </Dropdown>
         )}

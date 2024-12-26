@@ -1,5 +1,5 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query'
-import { Collapse, CollapseProps, message, Modal, Space, Switch, Tag, Tooltip } from 'antd'
+import { Collapse, CollapseProps, message, Modal, Skeleton, Space, Switch, Tag, Tooltip } from 'antd'
 
 import { userKeys } from '@/keys'
 import { icons } from '@/utils/icons'
@@ -12,7 +12,7 @@ import { ChangePassword, HighLevelPassword, TwoFARecommendation } from '@/pages'
 export const Settings = () => {
   const queryClient = useQueryClient()
 
-  const { currentUser } = useAuth()
+  const { currentUser, isLoading: isFetchingUser } = useAuth()
 
   const { value: isWaringDisable, toggle: toggleWaringDisable } = useBoolean(false)
 
@@ -58,21 +58,23 @@ export const Settings = () => {
         </div>
       ),
       children: (
-        <div className='flex flex-col gap-4'>
-          <p className='text-black font-normal text-base'>
-            Two-factor authentication (2FA) adds an extra layer of security by requiring a second verification step,
-            like a code sent to your phone, alongside your password.
-          </p>
-          <Tag bordered={false} color='blue' className='text-lg text-wrap !w-fit px-2'>
-            Enable it to secure your account
-          </Tag>
-          <Switch checked={isShowEnableTwoFa} onChange={toggleShowEnableTwoFa} className='!w-fit' />
-          {isShowEnableTwoFa && (
-            <div className='transition-all duration-500 ease-in-out transform scale-95 animate-fadeIn'>
-              <TwoFARecommendation />
-            </div>
-          )}
-        </div>
+        <Skeleton loading={isPendingDisableTwoFa || isFetchingUser} active>
+          <div className='flex flex-col gap-4'>
+            <p className='text-black font-normal text-base'>
+              Two-factor authentication (2FA) adds an extra layer of security by requiring a second verification step,
+              like a code sent to your phone, alongside your password.
+            </p>
+            <Tag bordered={false} color='blue' className='text-lg text-wrap !w-fit px-2'>
+              Enable it to secure your account
+            </Tag>
+            <Switch checked={isShowEnableTwoFa} onChange={toggleShowEnableTwoFa} className='!w-fit' />
+            {isShowEnableTwoFa && (
+              <div className='transition-all duration-500 ease-in-out transform scale-95 animate-fadeIn'>
+                <TwoFARecommendation />
+              </div>
+            )}
+          </div>
+        </Skeleton>
       )
     }
   ]
@@ -91,16 +93,18 @@ export const Settings = () => {
         </div>
       ),
       children: (
-        <div className='flex flex-col gap-4'>
-          <p className='text-black font-normal text-base'>
-            Two-factor authentication (2FA) adds an extra layer of security by requiring a second verification step,
-            like a code sent to your phone, alongside your password.
-          </p>
-          <Tag bordered={false} color='blue' className='text-lg text-wrap !w-fit px-2'>
-            Turn off
-          </Tag>
-          <Switch checked onChange={handleConfirmTurnOffTwoFa} className='w-fit' />
-        </div>
+        <Skeleton loading={isPendingDisableTwoFa || isFetchingUser} active>
+          <div className='flex flex-col gap-4'>
+            <p className='text-black font-normal text-base'>
+              Two-factor authentication (2FA) adds an extra layer of security by requiring a second verification step,
+              like a code sent to your phone, alongside your password.
+            </p>
+            <Tag bordered={false} color='blue' className='text-lg text-wrap !w-fit px-2'>
+              Turn off
+            </Tag>
+            <Switch checked onChange={handleConfirmTurnOffTwoFa} className='w-fit' />
+          </div>
+        </Skeleton>
       )
     }
   ]

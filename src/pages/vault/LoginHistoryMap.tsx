@@ -131,7 +131,7 @@ export const LoginHistoryMap = () => {
       <nav
         className={`absolute top-0 bottom-0 left-0 h-screen md:w-[470px] xs:w-full overflow-hidden z-[401] transition duration-400 ${showNavbar ? 'translate-x-0' : 'md:-translate-x-[448px] xs:-translate-x-[90%]'}`}
       >
-        <div className='absolute top-0 bottom-0 left-0 h-full md:w-[448px] xs:w-[90%] bg-white shadow-right'>
+        <div className='absolute flex flex-col top-0 bottom-0 left-0 h-full md:w-[448px] xs:w-[90%] bg-white shadow-right'>
           <div className='p-4 flex xs:flex-wrap md:flex-nowrap items-center gap-x-4 xs:justify-between md:justify-start'>
             <Select
               value={selectTimeString}
@@ -179,7 +179,7 @@ export const LoginHistoryMap = () => {
               </>
             )}
           </ul>
-          <div className='flex items-center xs:mx-2'>
+          <div className='flex items-center xs:mx-2 mb-2'>
             <CustomBtn title='Back' type='primary' onClick={handleBackHome} className='mt-4' />
           </div>
         </div>

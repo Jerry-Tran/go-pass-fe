@@ -1,10 +1,10 @@
 import * as yup from 'yup'
-import { useEffect } from 'react'
+import { useEffect, memo } from 'react'
 import { AxiosError } from 'axios'
 import { useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
-import { Form, message, Modal, Space, Switch, Tag, Collapse, Tooltip, CollapseProps } from 'antd'
+import { Form, message, Modal, Space, Switch, Tag, Collapse, Tooltip, CollapseProps, Skeleton } from 'antd'
 
 import { userKeys } from '@/keys'
 import { icons } from '@/utils/icons'
@@ -22,10 +22,10 @@ const passwordSchema = yup.object().shape({
     .required('Please input your the password!')
 })
 
-export function HighLevelPassword() {
+export const HighLevelPassword = memo(() => {
   const queryClient = useQueryClient()
 
-  const { currentUser } = useAuth()
+  const { currentUser, isPending: isFetchingUser } = useAuth()
 
   const { value: isEnableHighPassword, setValue: setIsEnableHighPassword } = useBoolean(false)
 
@@ -73,8 +73,8 @@ export function HighLevelPassword() {
     mutationFn: highLevelPasswordApi.create,
     onSuccess: () => {
       reset()
-      message.success('Create high level password successfully!')
       toggleShowHighLevelPassword()
+      message.success('Create high level password successfully!')
       queryClient.invalidateQueries(userKeys.profile())
     },
     onError: (error: AxiosError) => {
@@ -83,7 +83,7 @@ export function HighLevelPassword() {
     }
   })
 
-  const { mutate: mutateToggleHighPassword, isPending: isPendingTurnOff } = useMutation<
+  const { mutate: mutateToggleHighPassword, isPending: isPendingToggle } = useMutation<
     IDataResponse,
     AxiosError<IErrorResponse>
   >({
@@ -101,9 +101,9 @@ export function HighLevelPassword() {
   })
 
   const renderSwitchContent = () => {
-    if (!isEnableHighPassword) {
+    if (currentUser?.highLevelPasswords?.some((password) => password.status === STATUS_2FA.DISABLED)) {
       return <Switch checked={false} onChange={() => mutateToggleHighPassword()} className='!w-fit' />
-    } else if (isEnableHighPassword) {
+    } else if (currentUser?.highLevelPasswords?.some((password) => password.status === STATUS_2FA.ENABLED)) {
       return <Switch checked onChange={handleConfirmTurnOffTwoFa} className='!w-fit' />
     }
     return <Switch checked={isShowEnableHighLevelPassword} onChange={toggleShowHighLevelPassword} className='!w-fit' />
@@ -131,50 +131,55 @@ export function HighLevelPassword() {
         </div>
       ),
       children: (
-        <div className='flex flex-col gap-4'>
-          <p className='font-normal text-base'>
-            When using an account or workspace, you need to provide a level 2 password to avoid hackers using it.
-          </p>
-          <Tag bordered={false} color='blue' className='text-lg text-wrap !w-fit px-2'>
-            {isEnableHighPassword ? 'Turn off' : 'Enable it to secure your account'}
-          </Tag>
-          {renderSwitchContent()}
-          {isShowEnableHighLevelPassword && (
-            <div className='flex flex-col md:flex-row justify-center bg-white transition-all duration-500 ease-in-out transform scale-95 animate-fadeIn'>
-              <Form
-                className='md:min-w-[400px] lg:min-w-[500px]'
-                layout='vertical'
-                onFinish={handleSubmit(handleEnableHighLevelPassword)}
-              >
-                <CustomInput
-                  name='password'
-                  label='High level password'
-                  size='large'
-                  type='password'
-                  control={control}
-                  errors={errors}
-                  placeholder='Enter your high level password'
-                />
-                {isError && <span className='text-red-500 mb-2 text-lg'>{error.response?.data.message}</span>}
-                <CustomBtn
-                  title='Create'
-                  type='primary'
-                  htmlType='submit'
-                  disabled={isPendingCreate}
-                  loading={isPendingCreate}
-                  className='mt-4'
-                />
-              </Form>
-            </div>
-          )}
-        </div>
+        <Skeleton loading={isPendingCreate || isPendingToggle || isFetchingUser} active>
+          <div className='flex flex-col gap-4'>
+            <p className='font-normal text-base'>
+              When using an account or workspace, you need to provide a level 2 password to avoid hackers using it.
+            </p>
+            <Tag bordered={false} color='blue' className='text-lg text-wrap !w-fit px-2'>
+              {isEnableHighPassword ? 'Turn off' : 'Enable it to secure your account'}
+            </Tag>
+            {renderSwitchContent()}
+            {isShowEnableHighLevelPassword && (
+              <div className='flex flex-col md:flex-row justify-center bg-white transition-all duration-500 ease-in-out transform scale-95 animate-fadeIn'>
+                <Form
+                  className='md:min-w-[400px] lg:min-w-[500px]'
+                  layout='vertical'
+                  onFinish={handleSubmit(handleEnableHighLevelPassword)}
+                >
+                  <CustomInput
+                    name='password'
+                    label='High level password'
+                    size='large'
+                    type='password'
+                    control={control}
+                    errors={errors}
+                    placeholder='Enter your high level password'
+                  />
+                  {isError && <span className='text-red-500 mb-2 text-lg'>{error.response?.data.message}</span>}
+                  <CustomBtn
+                    title='Create'
+                    type='primary'
+                    htmlType='submit'
+                    disabled={isPendingCreate}
+                    loading={isPendingCreate}
+                    className='mt-4'
+                  />
+                </Form>
+              </div>
+            )}
+          </div>
+        </Skeleton>
       )
     }
   ]
 
   useEffect(() => {
-    if (currentUser)
-      setIsEnableHighPassword(currentUser?.highLevelPasswords?.some((password) => password.status === STATUS_2FA.ENABLED))
+    if (currentUser) {
+      setIsEnableHighPassword(
+        currentUser?.highLevelPasswords?.some((password) => password.status === STATUS_2FA.ENABLED)
+      )
+    }
   }, [currentUser])
 
   return (
@@ -194,7 +199,8 @@ export function HighLevelPassword() {
               title='Turn off'
               type='primary'
               onClick={handleToggleSettingHighPassword}
-              disabled={isPendingTurnOff}
+              disabled={isPendingToggle}
+              loading={isPendingToggle}
               className='bg-red-500 hover:!bg-red-600'
             />
           </Space>
@@ -214,4 +220,4 @@ export function HighLevelPassword() {
       />
     </section>
   )
-}
+})

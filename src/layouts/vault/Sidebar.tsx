@@ -32,7 +32,7 @@ export function Sidebar() {
 
   const sidebarContent = (
     <>
-      <Link to={PATH.VAULT} className='p-0 xs:px-6 '>
+      <Link to={PATH.VAULT} className='p-0 xs:px-6'>
         <div className='flex items-center md:py-0 xs:justify-center lg:justify-start xs:py-4 lg:px-10 gap-x-2'>
           <img src={logo} alt='logo' className='w-10' />
           <h2 className='text-[22px] font-semibold text-slate-800 md:hidden lg:inline-block'>GoPass</h2>
@@ -55,7 +55,7 @@ export function Sidebar() {
                 <span className='text-2xl xs:px-2 lg:px-4'>
                   {isActive ? sideBarItem.iconActive : sideBarItem.iconInactive}
                 </span>
-                <span className='text-lg md:hidden lg:inline-block'>{sideBarItem.text}</span>
+                <span className='text-base md:hidden lg:inline-block'>{sideBarItem.text}</span>
               </NavLink>
             </li>
           )
