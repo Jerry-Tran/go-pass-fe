@@ -1,3 +1,4 @@
+import L from 'leaflet'
 import {
   CloudOutlined,
   SafetyOutlined,
@@ -46,6 +47,17 @@ import { CiVault } from 'react-icons/ci'
 import { IoWarning } from 'react-icons/io5'
 import { RxCounterClockwiseClock } from 'react-icons/rx'
 import { FiMoreVertical } from 'react-icons/fi'
+
+import locationImage from '@/assets/images/marker-icon.png'
+
+const locationOpenStreetMap = L.icon({
+  iconUrl: locationImage,
+  iconSize: [25, 41],
+  shadowSize: [50, 64],
+  iconAnchor: [22, 94],
+  shadowAnchor: [4, 62],
+  popupAnchor: [-3, -76]
+})
 
 export const icons = {
   userCircle: <FaUserCircle />,
@@ -106,5 +118,6 @@ export const icons = {
   moreFi: <FiMoreVertical />,
   restore: <MdOutlineRestorePage />,
   eye: <LuEye />,
-  eyeOff: <LuEyeOff />
+  eyeOff: <LuEyeOff />,
+  locationOpenStreetMap
 }

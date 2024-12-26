@@ -203,7 +203,11 @@ export const LoginHistoryMap = () => {
         />
         {listLoginHistories.length > 0 ? (
           listLoginHistories.map((loginHistory) => (
-            <Marker key={loginHistory.id} position={[loginHistory.lat, loginHistory.lon]}>
+            <Marker
+              key={loginHistory.id}
+              position={[loginHistory.lat, loginHistory.lon]}
+              icon={icons.locationOpenStreetMap}
+            >
               <Popup>{loginHistory.address}</Popup>
             </Marker>
           ))
