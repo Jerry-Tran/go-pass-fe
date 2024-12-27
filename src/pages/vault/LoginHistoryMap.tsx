@@ -150,7 +150,7 @@ export const LoginHistoryMap = () => {
           </div>
           <ul
             ref={listLoginHistoriesRef}
-            className='space-y-4 xs:h-[70%] md:h-[84%] lg:h-[82%]  2xl:h-[84%] overflow-y-auto scroll-container'
+            className='flex-1 space-y-4 xs:h-[70%] md:h-[84%] lg:h-[82%]  2xl:h-[84%] overflow-y-auto scroll-container'
           >
             {isLoading && isFetched && (
               <>
