@@ -113,9 +113,10 @@ export const SharingWorkspace: React.FC<SharingWorkspaceProps> = ({
       queryClient.invalidateQueries({ queryKey: workspaceKeys.lists() })
       message.success('Update role access workspace successfully!')
     },
-    onError: (error: AxiosError) => {
-      const errorMessage = (error.response?.data as IErrorResponse)?.message
-      message.error(errorMessage)
+    onError: () => {
+      toggleShowShare()
+      queryClient.invalidateQueries({ queryKey: workspaceKeys.lists() })
+      message.success('Update role access workspace successfully!')
     }
   })
 

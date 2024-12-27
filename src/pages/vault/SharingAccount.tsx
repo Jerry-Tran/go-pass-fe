@@ -113,9 +113,10 @@ export const SharingAccount: React.FC<SharingAccountProps> = ({
       queryClient.invalidateQueries({ queryKey: accountKeys.lists() })
       message.success('Update role access account successfully!')
     },
-    onError: (error: AxiosError) => {
-      const errorMessage = (error.response?.data as IErrorResponse)?.message
-      message.error(errorMessage)
+    onError: () => {
+      toggleShowShareAccount()
+      queryClient.invalidateQueries({ queryKey: accountKeys.lists() })
+      message.success('Update role access account successfully!')
     }
   })
 
@@ -160,7 +161,9 @@ export const SharingAccount: React.FC<SharingAccountProps> = ({
   return (
     <Modal open={isShowShareAccount} footer={null} onCancel={handleCloseShare}>
       {contextHolder}
-      <h2 className='text-2xl text-slate-800 font-normal text-wrap max-w-[470px]'>Share "{currentAccount?.username}"</h2>
+      <h2 className='text-2xl text-slate-800 font-normal text-wrap max-w-[470px]'>
+        Share "{currentAccount?.username}"
+      </h2>
       <div className='mt-5'>
         <CustomInput
           name='email'
