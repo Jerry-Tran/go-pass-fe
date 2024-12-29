@@ -11,7 +11,8 @@ import {
   LinkedinOutlined,
   DeleteOutlined,
   PlusOutlined,
-  EditOutlined
+  EditOutlined,
+  LockOutlined
 } from '@ant-design/icons'
 import { BiSolidUserAccount } from 'react-icons/bi'
 import { FaCopy, FaRegBell, FaUserCircle, FaUsers } from 'react-icons/fa'
@@ -118,6 +119,7 @@ export const icons = {
   moreFi: <FiMoreVertical />,
   restore: <MdOutlineRestorePage />,
   eye: <LuEye />,
+  lock: <LockOutlined />,
   eyeOff: <LuEyeOff />,
   locationOpenStreetMap
 }

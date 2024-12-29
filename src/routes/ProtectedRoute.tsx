@@ -13,9 +13,9 @@ type ProtectedRouteProps = {
 }
 
 export const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ role, children }) => {
-  const { currentUser, isPending } = useAuth()
+  const { currentUser, isLoading } = useAuth()
 
-  if (isPending) {
+  if (isLoading) {
     return (
       <div className='flex items-center justify-center h-screen'>
          <CustomLottie animationData={loading} width={150} height={150} />
