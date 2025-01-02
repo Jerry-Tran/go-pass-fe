@@ -61,9 +61,9 @@ export const CardPricingPlan: React.FC<PricingPlanProps> = ({ pricingPlanItem })
           ))}
         </ul>
       </div>
-      {((currentUser?.subscriptionDetail.weights &&
-        pricingPlanItem.weights > currentUser?.subscriptionDetail.weights) ||
-        (!currentUser && pricingPlanItem.title !== 'FREE')) && (
+      {((currentUser?.subscriptionDetail?.weights &&
+        pricingPlanItem?.weights > currentUser?.subscriptionDetail?.weights) ||
+        (!currentUser && pricingPlanItem?.title !== 'FREE')) && (
         <Button
           size='large'
           className='bg-yellow-500 text-white hover:!border-yellow-500 hover:!text-yellow-500 font-semibold text-xl'
