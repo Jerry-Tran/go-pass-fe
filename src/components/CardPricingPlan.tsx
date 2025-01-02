@@ -39,7 +39,7 @@ export const CardPricingPlan: React.FC<PricingPlanProps> = ({ pricingPlanItem })
   }
   return (
     <li
-      className={`flex flex-col h-[680px] p-6 mx-auto max-w-lg text-center text-gray-900 bg-white rounded-lg border border-gray-100 shadow-md dark:border-gray-600 xl:p-8 dark:bg-gray-800 dark:text-white justify-between ${(currentUser?.subscriptionDetail.weights && pricingPlanItem.weights === currentUser?.subscriptionDetail.weights) || (!currentUser && pricingPlanItem.title === 'FREE') ? 'border-2 border-yellow-500' : 'border border-yellow-200'}`}
+      className={`flex flex-col h-[680px] p-6 mx-auto max-w-lg text-center text-gray-900 bg-white rounded-lg border border-gray-100 shadow-md dark:border-gray-600 xl:p-8 dark:bg-gray-800 dark:text-white justify-between ${(currentUser?.subscriptionDetail?.weights && pricingPlanItem?.weights === currentUser?.subscriptionDetail?.weights) || (!currentUser && pricingPlanItem?.title === 'FREE') ? 'border-2 border-yellow-500' : 'border border-yellow-200'}`}
     >
       <div>
         <Title level={3} className='mb-4 text-2xl font-semibold'>
