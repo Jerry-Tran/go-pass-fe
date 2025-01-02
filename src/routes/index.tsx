@@ -16,7 +16,8 @@ import {
   ListContactInfos,
   ListWorkspaces,
   Settings,
-  WorkspaceDetail
+  WorkspaceDetail,
+  VerifyPayment
 } from '@/pages'
 import { PATH } from '@/utils/constants'
 import { Dashboard, ManageUsers } from '@/pages/admin'
@@ -139,6 +140,10 @@ export const router = createBrowserRouter([
         element: <Settings />
       }
     ]
+  },
+  {
+    path: PATH.VERIFY_PAYMENT,
+    element: <VerifyPayment />
   },
   {
     path: PATH.CONFIRM_ACCOUNT_INVITATION,

@@ -6,6 +6,8 @@ Welcome to **My Front End GoPass**! This is a ReactJS application designed to sh
 
 - [Prerequisites](#prerequisites)
 - [Installation](#installation)
+- [Directory Structure](#directory-structure)
+- [Architecture Diagram](#architecture-diagram)
 - [Settings](#settings)
 - [Running the Project](#running-the-project)
 - [Deployment](#deployment)
@@ -45,16 +47,42 @@ Make sure you have the following installed on your machine:
     ```bash
     yarn install
     ```
+    ```
+## Directory Structure
+![image](https://github.com/user-attachments/assets/d2840d66-3870-4887-b3a8-999be60a7b09)
 
 ## Settings
 
 At the root of the project, create a .env file and add the following environment variables
 ```
-VITE_API_URL=h
+VITE_API_URL=
+
 VITE_EXTENSION_URL=
+
+VITE_CLIENT_URL=
+
 VITE_SENTRY_URL = 
-VITE_SENTRY_AUTH_TOKEN = 
+
+VITE_SENTRY_AUTH_TOKEN =
+
+VITE_CLOUD_NAME = 
+
+VITE_UPLOAD_ASSETS_NAME = 
+
+VITE_CLOUDINARY_UPLOAD_URL = 
+
+VITE_CAPTCHAR_SITE_KEY = 
+
+VITE_OPEN_STREET_MAP_API_URL =
+
+VITE_ENCRYPTION_KEY=
+
+VITE_ENCRYPTION_IV=
+
+VITE_SOCKET_URL = dthAGMX0SFovOIfG
 ```
+## Architecture Diagram
+![GoPass Architecture Diagram](https://github.com/user-attachments/assets/c6846892-310f-42a3-beb1-d58ddd7fb513)
 
 ## Running the Project
 

@@ -150,7 +150,7 @@ export const LoginHistoryMap = () => {
           </div>
           <ul
             ref={listLoginHistoriesRef}
-            className='flex-1 space-y-4 xs:h-[70%] md:h-[84%] lg:h-[82%]  2xl:h-[84%] overflow-y-auto scroll-container'
+            className='space-y-4 xs:h-[70%] md:h-[84%] lg:h-[82%]  2xl:h-[84%] overflow-y-auto scroll-container'
           >
             {isLoading && isFetched && (
               <>
@@ -203,11 +203,7 @@ export const LoginHistoryMap = () => {
         />
         {listLoginHistories.length > 0 ? (
           listLoginHistories.map((loginHistory) => (
-            <Marker
-              key={loginHistory.id}
-              position={[loginHistory.lat, loginHistory.lon]}
-              icon={icons.locationOpenStreetMap}
-            >
+            <Marker key={loginHistory.id} position={[loginHistory.lat, loginHistory.lon]} icon={icons.locationOpenStreetMap}>
               <Popup>{loginHistory.address}</Popup>
             </Marker>
           ))

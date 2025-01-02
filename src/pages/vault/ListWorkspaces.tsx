@@ -7,7 +7,7 @@ import { ConfigProvider, message, Modal, Pagination, Space, Spin, Typography } f
 import { workspaceApi } from '@/apis'
 import { icons } from '@/utils/icons'
 import { workspaceKeys } from '@/keys'
-import { useBoolean, useDebounce } from '@/hooks'
+import { useAuth, useBoolean, useDebounce } from '@/hooks'
 import emptyData from '@/lotties/emptyWorkspace.json'
 import { CustomBtn, CustomInput, CustomLottie, WorkspaceItem } from '@/components'
 import { IErrorResponse, IPaginationParams, IWorkspaceDataResponse, IWorkspaceDataResponsePaginate } from '@/interfaces'
@@ -28,6 +28,7 @@ export function ListWorkspaces() {
     ...workspaceKeys.list(queryParams as IPaginationParams),
     enabled: !!queryParams
   })
+  const { currentUser } = useAuth()
 
   const [deleteWorkspaceId, setDeleteWorkspaceId] = useState<string>('')
 
@@ -127,15 +128,27 @@ export function ListWorkspaces() {
         toggleShowCreateForm={toggleShowCreateForm}
       />
       {((!isLoading && data && data?.workspaces.length > 0) || searchValue || queryParams?.keyword) && (
-        <div className='flex items-center justify-between gap-4 pb-8 xs:flex-col md:flex-row'>
-          <CustomInput
-            name='searchValue'
-            size='large'
-            placeholder='Search your workspaces'
-            className='!h-12 max-w-screen-md xs:mr-0 !text-base font-medium border border-gray-200 rounded-md hover:border-primary-800 focus-within:shadow-custom'
-            onChange={(e: { target: { value: string } }) => handleSearchWorkspace(e.target.value)}
-            value={searchValue}
-          />
+        <div className='flex items-center justify-between gap-4 pb-4 xs:flex-col md:flex-row'>
+          <div className='w-full flex flex-col items-start gap-4'>
+            <CustomInput
+              name='searchValue'
+              size='large'
+              placeholder='Search your workspaces'
+              className='!h-12 max-w-screen-md xs:mr-0 !text-base font-medium border border-gray-200 rounded-md hover:border-primary-800 focus-within:shadow-custom'
+              onChange={(e: { target: { value: string } }) => handleSearchWorkspace(e.target.value)}
+              value={searchValue}
+            />
+            <div
+              className={`flex items-center ${currentUser?.subscriptionDetail.maxWorkspaces && currentUser?.subscriptionDetail.maxWorkspaces !== -1 && data?.workspaces && data?.workspaces.length >= currentUser?.subscriptionDetail.maxWorkspaces ? 'text-red-500' : 'text-green-500'}`}
+            >
+              {data?.workspaces.length}/
+              {currentUser?.subscriptionDetail.maxWorkspaces !== -1 ? (
+                currentUser?.subscriptionDetail.maxWorkspaces
+              ) : (
+                <span className='text-2xl'>&#x221e;</span>
+              )}
+            </div>
+          </div>
           <Space className='flex xs:w-full md:w-auto xs:justify-between'>
             <CustomBtn
               title='Create'

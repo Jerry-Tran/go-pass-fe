@@ -1,4 +1,4 @@
-import { ReactElement } from "react"
+import { ReactElement } from 'react'
 
 export interface FeatureProps {
   icon: ReactElement
@@ -9,4 +9,10 @@ export interface IPricingPlanItem {
   description: string
   price: string
   features: FeatureProps[]
+  weights: number
+}
+
+export interface IVerifySubscriptionStatus {
+  status: string
+  message: string
 }

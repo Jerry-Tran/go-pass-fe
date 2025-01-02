@@ -20,19 +20,17 @@ function App() {
   const { mutate: mutateGetToken, isPending } = useMutation<ILoginResponse, AxiosError<IErrorResponse>, string>({
     mutationFn: authApi.getToken,
     onSuccess: () => {
-      localStorage.setItem(LOCAL_STORAGE_KEYS.isLoggedIn, 'true')
       if (targetUrl) {
         window.location.href = targetUrl
       }
-    },
-    onError: (e: AxiosError) => {
-      console.log('error', e)
+      localStorage.setItem(LOCAL_STORAGE_KEYS.isLoggedIn, 'true')
     }
   })
 
   useEffect(() => {
     const handleMessage = (event: MessageEvent) => {
-      if (event.data.action === 'syncLoginToWeb') {
+      if (event.origin !== window.location.origin || !event.data) return
+      if (event.data.action === 'syncLoginToWeb' && !isLoggedIn) {
         const { userId, targetUrl } = event.data
         mutateGetToken(userId)
         setTargetUrl(targetUrl)

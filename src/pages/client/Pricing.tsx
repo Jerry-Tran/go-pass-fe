@@ -2,8 +2,10 @@ import { Element } from 'react-scroll'
 
 import { CardPricingPlan } from '@/components'
 import { PRICING_PLAN_ITEMS } from '@/utils/constants'
+import { useEffect } from 'react'
 
 export const Pricing = () => {
+  useEffect(() => {})
   return (
     <Element name='pricing'>
       <section className='bg-[#e5f7f9]'>

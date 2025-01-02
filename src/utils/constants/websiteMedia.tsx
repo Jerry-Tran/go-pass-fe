@@ -19,7 +19,7 @@ export const FEATURES = [
   {
     title: 'Secure Backup',
     text: 'Never lose your data with our automated backup.',
-    icon: icons.lock
+    icon: icons.lockLine
   },
   {
     title: 'Custom Integrations',
@@ -35,8 +35,9 @@ export const FEATURES = [
 
 export const PRICING_PLAN_ITEMS = [
   {
-    title: 'Free',
+    title: 'FREE',
     description: 'Get started and try our service before pricing',
+    weights: 1,
     price: '$0',
     features: [
       {
@@ -45,64 +46,98 @@ export const PRICING_PLAN_ITEMS = [
       },
       {
         icon: icons.checkmark,
-        text: 'Limited workspace'
+        text: 'Access on all devices'
+      },
+      {
+        icon: icons.checkmark,
+        text: 'Password generator'
+      },
+      {
+        icon: icons.checkmark,
+        text: 'Save and autofill'
+      },
+      {
+        icon: icons.checkmark,
+        text: 'Storage limit of 10 accounts'
+      },
+      {
+        icon: icons.checkmark,
+        text: 'Personal support'
+      },
+      {
+        icon: icons.checkmark,
+        text: 'Multifactor authentication'
+      },
+      {
+        icon: icons.checkmark,
+        text: '1 workspace'
       }
     ]
   },
   {
-    title: 'Starter',
+    title: 'STARTER',
     description: 'Best option for personal use and small projects.',
+    weights: 10,
+
     price: '$19',
     features: [
       {
         icon: icons.checkmark,
-        text: 'Basic configuration'
+        text: 'Includes all free features'
       },
       {
         icon: icons.checkmark,
-        text: 'No setup or hidden fees'
+        text: 'Storage limit of 25 accounts'
       },
       {
         icon: icons.checkmark,
-        text: 'Email support'
+        text: 'Workspace'
+      },
+      {
+        icon: icons.checkmark,
+        text: '4 workspaces'
       }
     ]
   },
   {
-    title: 'Professional',
+    title: 'PROFESSIONAL',
     description: 'Ideal for freelancers and growing businesses.',
+    weights: 100,
+
     price: '$49',
     features: [
       {
         icon: icons.checkmark,
-        text: 'Advanced configuration'
+        text: 'Includes all starter features'
       },
       {
         icon: icons.checkmark,
-        text: 'Priority support'
+        text: 'Storage limit of 100 accounts'
       },
       {
         icon: icons.checkmark,
-        text: 'Free updates'
+        text: '10 workspaces'
       }
     ]
   },
   {
-    title: 'Business',
+    title: 'BUSINESS',
     description: 'Perfect for small to medium-sized teams.',
+    weights: 1000,
+
     price: '$99',
     features: [
       {
         icon: icons.checkmark,
-        text: 'Team collaboration tools'
+        text: 'Includes all Professional features'
       },
       {
         icon: icons.checkmark,
-        text: 'Premium support'
+        text: 'Unlimited amount of accounts'
       },
       {
         icon: icons.checkmark,
-        text: 'Customizable features'
+        text: 'Unlimited amount of workspaces'
       }
     ]
   }

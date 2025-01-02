@@ -14,7 +14,7 @@ import { userKeys } from '@/keys'
 import { useBoolean, useAuth } from '@/hooks'
 import { PROFILE_FIELDS } from '@/utils/constants'
 import { uploadToCloudinary } from '@/utils/helpers'
-import { CustomBtn, CustomInput } from '@/components'
+import { CustomBtn, CustomInput, UpgradeSubscription } from '@/components'
 import { ICurrentUser, IErrorResponse, IUpdateProfileData } from '@/interfaces'
 
 type FileType = Parameters<GetProp<UploadProps, 'beforeUpload'>>[0]
@@ -35,6 +35,8 @@ export const Profile = () => {
   const [previewImage, setPreviewImage] = useState<string>('')
 
   const { value: previewOpen, toggle: setPreviewOpen } = useBoolean(false)
+
+  const upgradeModalControl = useBoolean(false)
 
   const {
     control,
@@ -117,32 +119,54 @@ export const Profile = () => {
           <Spin size='large' />
         ) : (
           <Row className='flex-col md:flex-row xs:gap-8 md:gap-10 xl:gap-20 items-center justify-center'>
-            <Col className='flex flex-col justify-center items-center'>
-              <Upload
-                name='avatar'
-                listType='picture-card'
-                showUploadList={false}
-                className='!flex !justify-center'
-                customRequest={handleUploadImage}
-              >
-                {imageUrl ? (
-                  <div className='relative w-full h-full'>
-                    <img src={imageUrl} alt='avatar' className='w-full h-full rounded-md' />
-                  </div>
-                ) : (
-                  <button className='flex flex-col items-center justify-between border-0 outline-none' type='button'>
-                    {isPendingUploadImage ? <LoadingOutlined /> : <PlusOutlined />}
-                    <span className='mt-2 text-lg text-slate-800'>Upload</span>
-                  </button>
+            <Col className='flex flex-col justify-between items-center h-full'>
+              <div className='flex flex-col items-start gap-2 justify-between h-full'>
+                <Upload
+                  name='avatar'
+                  listType='picture-card'
+                  showUploadList={false}
+                  className='!flex !justify-center'
+                  customRequest={handleUploadImage}
+                >
+                  {imageUrl ? (
+                    <div className='relative w-full h-full'>
+                      <img src={imageUrl} alt='avatar' className='w-full h-full rounded-md' />
+                    </div>
+                  ) : (
+                    <button className='flex flex-col items-center justify-between border-0 outline-none' type='button'>
+                      {isPendingUploadImage ? <LoadingOutlined /> : <PlusOutlined />}
+                      <span className='mt-2 text-lg text-slate-800'>Upload</span>
+                    </button>
+                  )}
+                </Upload>
+                {imageUrl && (
+                  <CustomBtn
+                    title='Preview'
+                    onClick={handlePreviewImage}
+                    className='w-full text-lg bg-[#fafafa] mt-4 p-2 rounded-md'
+                  />
                 )}
-              </Upload>
-              {imageUrl && (
-                <CustomBtn
-                  title='Preview'
-                  onClick={handlePreviewImage}
-                  className='w-full text-lg bg-[#fafafa] mt-4 p-2 rounded-md'
-                />
-              )}
+                <div>
+                  <div className='flex gap-4 items-center'>
+                    <span className=' text-xl'>Subscription:</span>
+                    <span
+                      className={` text-xl ${currentUser?.subscription === 'FREE' ? 'text-green-500' : 'text-yellow-500'} font-semibold`}
+                    >
+                      {currentUser?.subscription}
+                    </span>
+                  </div>
+                  <div className='text-base flex'>
+                    Are you want to
+                    <div
+                      className='text-blue-500 cursor-pointer hover:font-semibold min-w-16 mx-1'
+                      onClick={() => upgradeModalControl.setTrue()}
+                    >
+                      upgrade
+                    </div>
+                    your subscription?
+                  </div>
+                </div>
+              </div>
             </Col>
             <Col className='w-full md:flex-1'>
               <Form
@@ -181,6 +205,7 @@ export const Profile = () => {
           </Row>
         )}
       </div>
+      {upgradeModalControl && <UpgradeSubscription modalControl={upgradeModalControl} />}
       {previewImage && (
         <Image
           wrapperStyle={{ display: 'none' }}

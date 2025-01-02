@@ -15,6 +15,14 @@ export interface ICurrentUser {
     type: string
     status: string
   }[]
+  subscriptionDetail: {
+    id: string
+    name: string
+    maxAccounts: number
+    maxWorkspaces: number
+    weights: number
+  }
+  subscription: string
   isSkippedTwoFa?: boolean
 }
 export interface ILoginPayload {

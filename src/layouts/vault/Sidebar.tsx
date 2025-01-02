@@ -32,7 +32,7 @@ export function Sidebar() {
 
   const sidebarContent = (
     <>
-      <Link to={PATH.VAULT} className='p-0 xs:px-6'>
+      <Link to={PATH.HOME} className='p-0 xs:px-6'>
         <div className='flex items-center md:py-0 xs:justify-center lg:justify-start xs:py-4 lg:px-10 gap-x-2'>
           <img src={logo} alt='logo' className='w-10' />
           <h2 className='text-[22px] font-semibold text-slate-800 md:hidden lg:inline-block'>GoPass</h2>

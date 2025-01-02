@@ -8,7 +8,7 @@ import { accountApi } from '@/apis'
 import { accountKeys } from '@/keys'
 import { icons } from '@/utils/icons'
 import emptyData from '@/lotties/emptyData.json'
-import { useBoolean, useDebounce } from '@/hooks'
+import { useAuth, useBoolean, useDebounce } from '@/hooks'
 import { AccountItem, CustomBtn, CustomInput, CustomLottie } from '@/components'
 import { IAccountDataResponse, IAccountDataResponsePaginate, IErrorResponse, IPaginationParams } from '@/interfaces'
 
@@ -32,6 +32,8 @@ export const ListAccounts = () => {
   const [deleteAccountId, setDeleteAccountId] = useState<string>('')
 
   const [currentAccount, setCurrentAccount] = useState<IAccountDataResponse>()
+
+  const { currentUser } = useAuth()
 
   const [searchValue, setSearchValue] = useState<string>(searchParams.get('keyword') || '')
 
@@ -127,15 +129,27 @@ export const ListAccounts = () => {
         toggleShowCreateAccountForm={toggleShowCreateAccountForm}
       />
       {((!isLoading && data && data?.accounts.length > 0) || searchValue || queryParams?.keyword) && (
-        <div className='flex items-center justify-between gap-4 pb-8 xs:flex-col md:flex-row'>
-          <CustomInput
-            name='searchValue'
-            size='large'
-            placeholder='Search your accounts'
-            className='!h-12 max-w-screen-md xs:mr-0 !text-base font-medium border border-gray-200 rounded-md hover:border-primary-800 focus-within:shadow-custom'
-            onChange={(e: { target: { value: string } }) => handleSearchAccount(e.target.value)}
-            value={searchValue}
-          />
+        <div className='flex items-center justify-between gap-4 pb-4 xs:flex-col md:flex-row'>
+          <div className='w-full flex flex-col items-start gap-4'>
+            <CustomInput
+              name='searchValue'
+              size='large'
+              placeholder='Search your accounts'
+              className='!h-12 max-w-screen-md xs:mr-0 !text-base font-medium border border-gray-200 rounded-md hover:border-primary-800 focus-within:shadow-custom'
+              onChange={(e: { target: { value: string } }) => handleSearchAccount(e.target.value)}
+              value={searchValue}
+            />
+            <div
+              className={`flex items-center ${currentUser?.subscriptionDetail.maxAccounts && currentUser?.subscriptionDetail.maxAccounts !== -1 && data?.accounts && data?.accounts.length >= currentUser?.subscriptionDetail.maxAccounts ? 'text-red-500' : 'text-green-500'}`}
+            >
+              {data?.accounts.length}/
+              {currentUser?.subscriptionDetail.maxAccounts !== -1 ? (
+                currentUser?.subscriptionDetail.maxAccounts
+              ) : (
+                <span className='text-2xl'>&#x221e;</span>
+              )}
+            </div>
+          </div>
           <Space className='flex xs:w-full md:w-auto xs:justify-between'>
             <CustomBtn
               title='Create'

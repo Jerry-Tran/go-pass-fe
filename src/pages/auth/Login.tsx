@@ -72,7 +72,7 @@ export function Login() {
         setUserTwoFaId(response.userId)
         setVerifyTokenTwoFaForm()
       } else {
-        navigate(PATH.HOME, { state: { fromLogin: true } })
+        navigate(PATH.VAULT, { state: { fromLogin: true } })
         message.success('Login successfully!')
         localStorage.setItem(LOCAL_STORAGE_KEYS.isLoggedIn, 'true')
         queryClient.invalidateQueries(userKeys.profile())

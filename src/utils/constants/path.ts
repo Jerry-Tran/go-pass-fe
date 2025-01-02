@@ -22,5 +22,6 @@ export const PATH = {
   CONFIRM_WORKSPACE_INVITATION: '/confirm-workspace-invitation/:inviteId',
   TWO_FA_SUGGESTION: '/two-fa-recommendation',
   LOGIN_HISTORY_MAP: '/login-history-map',
+  VERIFY_PAYMENT: '/verify-payment',
   NOT_FOUND: '*'
 } as const
