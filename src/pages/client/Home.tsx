@@ -8,7 +8,7 @@ import { Contact, Feature, Pricing } from './index'
 
 export function Home() {
 
-
+  console.log("Home>>>>")
   return (
     <Element name='home'>
       <div className='h-screen bg-gradient-to-r from-teal-500 to-blue-600 flex items-center justify-center text-white'>
